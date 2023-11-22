@@ -1,4 +1,4 @@
-package src.caro_game;
+package org.example.caro_game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,37 +59,37 @@ public class CaRo extends JFrame implements ActionListener {
     public boolean checkWin(int i, int j) {
         int d = 0, k = i, h;
         // kiểm tra hàng
-        while (b[k][j].getText() == b[i][j].getText()) {
+        while (b[k][j].getText().equals(b[i][j].getText())) {
             d++;
             k++;
         }
         k = i - 1;
-        while (b[k][j].getText() == b[i][j].getText()) {
+        while (b[k][j].getText().equals(b[i][j].getText())) {
             d++;
             k--;
         }
         if (d > 4) return true;
         d = 0; h = j;
         // kiểm tra cột
-        while(b[i][h].getText() == b[i][j].getText()) {
+        while(b[i][h].getText().equals(b[i][j].getText())) {
             d++;
             h++;
         }
         h = j - 1;
-        while(b[i][h].getText() == b[i][j].getText()) {
+        while(b[i][h].getText().equals(b[i][j].getText())) {
             d++;
             h--;
         }
         if (d > 4) return true;
         // kiểm tra đường chéo 1
         h = i; k = j; d = 0;
-        while (b[i][j].getText() == b[h][k].getText()) {
+        while (b[i][j].getText().equals(b[h][k].getText())) {
             d++;
             h++;
             k++;
         }
         h = i - 1; k = j - 1;
-        while (b[i][j].getText() == b[h][k].getText()) {
+        while (b[i][j].getText().equals(b[h][k].getText())) {
             d++;
             h--;
             k--;
@@ -97,13 +97,13 @@ public class CaRo extends JFrame implements ActionListener {
         if (d > 4) return true;
         // kiểm tra đường chéo 2
         h = i; k = j; d = 0;
-        while (b[i][j].getText() == b[h][k].getText()) {
+        while (b[i][j].getText().equals(b[h][k].getText())) {
             d++;
             h++;
             k--;
         }
         h = i - 1; k = j + 1;
-        while (b[i][j].getText() == b[h][k].getText()) {
+        while (b[i][j].getText().equals(b[h][k].getText())) {
             d++;
             h--;
             k++;
@@ -150,16 +150,16 @@ public class CaRo extends JFrame implements ActionListener {
         undo_bt.setEnabled(true);
     }
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == "New Game") {
+        if (e.getActionCommand().equals("New Game")) {
             new CaRo("GAME DEMO");
             this.dispose();
         }
         else
-        if (e.getActionCommand() == "Undo") {
+        if (e.getActionCommand().equals("Undo")) {
             undo();
         }
         else
-        if (e.getActionCommand() == "Exit") {
+        if (e.getActionCommand().equals("Exit")) {
             System.exit(0);;
         }
         else {

@@ -1,4 +1,4 @@
-package Hpage;
+package org.example.HomePage;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
