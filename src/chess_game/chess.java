@@ -1,4 +1,4 @@
-package chess_game;
+package src.chess_game;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,16 +14,27 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import javax.swing.JList;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JTextArea;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JScrollPane;
 
 class obj implements ActionListener{
-	
+
 	JFrame game_frame;
 	String brown="#8A6A4F";
 	String white="#FABB79";
 	JLabel label;
 	JButton c00,c01,c02,c03,c04,c05,c06,c07,c10,c11,c12,c13,c14,c15,c16,c17,c20,c21,c22,c23,c24,c25,c26,c27,c30,c31,c32,c33,c34,c35,c36,c37,c40,c41,c42,c43,c44,c45,c46,c47,c50,c51,c52,c53,c54,c55,c56,c57,c60,c61,c62,c63,c64,c65,c66,c67,c70,c71,c72,c73,c74,c75,c76,c77;
 	static boolean en=false;
-	LinkedList<String> count; 
+	LinkedList<String> count;
 	String[][] arr ;
 	Map<String,JButton> bttn_map ;
 	Map<String,String> pos_map ;
@@ -33,68 +44,68 @@ class obj implements ActionListener{
 	String bn="265D";
 	String bk="265A";
 	String bq="265B";
-	
+
 	String white_label="Player White Turn "+String.valueOf(Character.toChars(Integer.parseInt(bh, 16)));
 	String black_label="Player Black Turn "+String.valueOf(Character.toChars(Integer.parseInt(bh, 16)));
-	
+
 	Color w= Color.WHITE;
 	Color b= Color.BLACK;
 	char player_turn;
-	
+
 	Border border = BorderFactory.createLineBorder(Color.BLACK,2);
-	
+
 	obj(JFrame game_frame)
 	{
 		this.game_frame=game_frame;
-		
-		count =new LinkedList<String>(); 
-		pos_map = new HashMap<String, String>();
-		 bttn_map = new HashMap();
-		create_tiles();	
-		retrive();	
-		
-		arr = new String[][]{ { "br","bh","bn","bq","bk","bn","bh","br" }, 
-		           { "bp","bp","bp","bp","bp","bp","bp","bp" },
-		           { "--","--","--","--","--","--","--","--" },
-		           { "--","--","--","--","--","--","--","--" },
-		           { "--","--","--","--","--","--","--","--" },
-		           { "--","--","--","--","--","--","--","--" },
-		           { "wp","wp","wp","wp","wp","wp","wp","wp" },
-		           { "wr","wh","wn","wq","wk","wn","wh","wr" }};
 
-		player_turn='b';
-		           
-		label = new JLabel("Player Black Turn "+String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
-		label.setBounds(730,330,700,70);
+		count =new LinkedList<String>();
+		pos_map = new HashMap<String, String>();
+		bttn_map = new HashMap();
+		create_tiles();
+		retrive();
+
+		arr = new String[][]{ { "br","bh","bn","bq","bk","bn","bh","br" },
+				{ "bp","bp","bp","bp","bp","bp","bp","bp" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "wp","wp","wp","wp","wp","wp","wp","wp" },
+				{ "wr","wh","wn","wq","wk","wn","wh","wr" }};
+
+		player_turn='w';
+
+		label = new JLabel("Player White Turn "+String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
+		label.setBounds(730,71,700,70 );//730,71,700,70           730,330,700,70
 		label.setVisible(true);
-		label.setForeground(Color.BLACK);
+		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Serif", Font.BOLD, 45));
 		game_frame.add(label);
 	}
-	
+
 	//intlise
 
 	public void intlise()
 	{
 		label.setText(black_label);
-		arr = new String[][]{ { "br","bh","bn","bq","bk","bn","bh","br" }, 
-	           { "bp","bp","bp","bp","bp","bp","bp","bp" },
-	           { "--","--","--","--","--","--","--","--" },
-	           { "--","--","--","--","--","--","--","--" },
-	           { "--","--","--","--","--","--","--","--" },
-	           { "--","--","--","--","--","--","--","--" },
-	           { "wp","wp","wp","wp","wp","wp","wp","wp" },
-	           { "wr","wh","wn","wq","wk","wn","wh","wr" }};
-	           
-	     player_turn='b'; 
-	     count =new LinkedList<String>(); 
-			pos_map = new HashMap<String, String>();
-			 bttn_map = new HashMap();
-			pos_map.clear();
-			bttn_map.clear();
-			retrive();
+		arr = new String[][]{ { "br","bh","bn","bq","bk","bn","bh","br" },
+				{ "bp","bp","bp","bp","bp","bp","bp","bp" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "--","--","--","--","--","--","--","--" },
+				{ "wp","wp","wp","wp","wp","wp","wp","wp" },
+				{ "wr","wh","wn","wq","wk","wn","wh","wr" }};
+
+		player_turn='w';
+		count =new LinkedList<String>();
+		pos_map = new HashMap<String, String>();
+		bttn_map = new HashMap();
+		pos_map.clear();
+		bttn_map.clear();
+		retrive();
 		count.clear();
-		
+
 		c00.setText(String.valueOf(Character.toChars(Integer.parseInt(br, 16))));
 		c01.setText(String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
 		c02.setText(String.valueOf(Character.toChars(Integer.parseInt(bn, 16))));
@@ -128,7 +139,7 @@ class obj implements ActionListener{
 		c16.setForeground(Color.BLACK);
 		c17.setForeground(Color.BLACK);
 
-		
+
 		c20.setText("");
 		c21.setText("");
 		c22.setText("");
@@ -161,8 +172,8 @@ class obj implements ActionListener{
 		c55.setText("");
 		c56.setText("");
 		c57.setText("");
-		
-		
+
+
 		c70.setText(String.valueOf(Character.toChars(Integer.parseInt(br, 16))));
 		c71.setText(String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
 		c72.setText(String.valueOf(Character.toChars(Integer.parseInt(bn, 16))));
@@ -195,12 +206,12 @@ class obj implements ActionListener{
 		c75.setForeground(Color.WHITE);
 		c76.setForeground(Color.WHITE);
 		c77.setForeground(Color.WHITE);
-		
+
 
 	}
-	
+
 	//intlise
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -209,17 +220,17 @@ class obj implements ActionListener{
 		int xx=pressed.charAt(1)-48;
 		int yy=pressed.charAt(2)-48;
 		char this_turn=arr[xx][yy].charAt(0);
-		
+
 		if(!count.isEmpty())
 		{
-				
+
 			String org = count.get(count.size()-1);
 			int x1=org.charAt(1)-48;
 			int y1=org.charAt(2)-48;
 			String last_piece="";
-			
+
 //			System.out.println("work "+arr[x1][y1]+""+count);
-			
+
 			for(int i=0;i<count.size();i++)
 			{
 				String str=count.get(i);
@@ -227,11 +238,11 @@ class obj implements ActionListener{
 				int y=str.charAt(2)-48;
 				JButton prrsd=bttn_map.get(str);
 				if((x+y)%2==0)
-				prrsd.setBackground(Color.decode(brown));
+					prrsd.setBackground(Color.decode(brown));
 				else
-				prrsd.setBackground(Color.decode(white));	
+					prrsd.setBackground(Color.decode(white));
 				prrsd.setBorderPainted(false);
-				
+
 				if(pressed.equals(str) && count.size()-1!=i)
 				{
 					JButton sample=	bttn_map.get(org);
@@ -242,109 +253,109 @@ class obj implements ActionListener{
 					pos_map.remove(org);
 					pos_map.remove(str);
 					piece=arr[x1][y1];
-				
+
 					arr[x1][y1]="--";
 					arr[x][y]=piece;
 					if(piece.equals("bp") || piece.equals("wp"))
-					piece=piece+"f";
+						piece=piece+"f";
 					pos_map.put(str, piece);
 					if(piece.charAt(0)=='w')
-					prrsd.setForeground(Color.white);
+						prrsd.setForeground(Color.white);
 					else
-					prrsd.setForeground(Color.black);
-					
+						prrsd.setForeground(Color.black);
+
 					if(player_turn=='b')
 					{player_turn='w';
-					label.setText(white_label);
-					label.setForeground(Color.white);
+						label.setText(white_label);
+						label.setForeground(Color.white);
 					}
 					else
 					{player_turn='b';
-					label.setText(black_label);
-					label.setForeground(Color.black);
-					};	
-					
+						label.setText(black_label);
+						label.setForeground(Color.black);
+					};
+
 				}
 			}
-			
+
 			if(last_piece.equals("bk") || last_piece.equals("wk"))
 			{
 				String s="Player Black Wins";
 				if(player_turn=='b')
-				s="Player White Wins";
-					
+					s="Player White Wins";
+
 				JOptionPane.showMessageDialog(game_frame,s);
 				intlise();
 			}
-			
+
 			for(int i=0;i<8;i++)
-			for(int j=0;j<8;j++)
-			if(!pos_map.containsKey("c"+i+""+j))
-				{
-					JButton sample = bttn_map.get("c"+i+""+j);
-					sample.setEnabled(false);
-				}
-			
-			count.clear(); 
-			
-			
-			
-			
-			
-			
+				for(int j=0;j<8;j++)
+					if(!pos_map.containsKey("c"+i+""+j))
+					{
+						JButton sample = bttn_map.get("c"+i+""+j);
+						sample.setEnabled(false);
+					}
+
+			count.clear();
+
+
+
+
+
+
 		}
-		
+
 		else if(count.isEmpty() && this_turn == player_turn)
 		{
-		String str=e.getActionCommand();
-		int x=str.charAt(1)-48;
-		int y=str.charAt(2)-48;
-		String pos=pos_map.get(str);
-		char c= pos.charAt(1);
-		
-		if(c=='p')
-		pawn(x,y,pos);
-		else if(c=='r')
-		rook(x,y,pos.charAt(0));
-		else if (c=='h')
-		horse(x,y,pos.charAt(0));
-		else if(c=='q')
-		queen(x,y,pos.charAt(0));
-		else if(c=='n')
-		bishop(x,y,pos.charAt(0));
-		else if(c=='k')
-		king(x,y,pos.charAt(0));	
-		
-		for(int i=0;i<count.size();i++)
-		{
-			String str_pos=count.get(i);
-			JButton sample = bttn_map.get(str_pos);
-			sample.setBackground(Color.decode("#a6ff4d"));
-			sample.setBorderPainted(true);
-			sample.setBorder(border);
-			
-			if(count.size()-1==i)
+			String str=e.getActionCommand();
+			int x=str.charAt(1)-48;
+			int y=str.charAt(2)-48;
+			String pos=pos_map.get(str);
+			char c= pos.charAt(1);
+
+			if(c=='p')
+				pawn(x,y,pos);
+			else if(c=='r')
+				rook(x,y,pos.charAt(0));
+			else if (c=='h')
+				horse(x,y,pos.charAt(0));
+			else if(c=='q')
+				queen(x,y,pos.charAt(0));
+			else if(c=='n')
+				bishop(x,y,pos.charAt(0));
+			else if(c=='k')
+				king(x,y,pos.charAt(0));
+
+			for(int i=0;i<count.size();i++)
+			{
+				String str_pos=count.get(i);
+				JButton sample = bttn_map.get(str_pos);
+				sample.setBackground(Color.decode("#a6ff4d"));
+				sample.setBorderPainted(true);
+				sample.setBorder(border);
+
+				if(count.size()-1==i)
 				{sample.setBackground(Color.decode("#3399ff"));}
-			else if(pos_map.containsKey(count.get(i)))
-					sample.setBackground(Color.decode("#ff5050"));	
-			
+				else if(pos_map.containsKey(count.get(i)))
+					sample.setBackground(Color.decode("#ff5050"));
+
+			}
+
+			for(int i=0;i<8;i++)
+				for(int j=0;j<8;j++)
+				{
+					JButton sample = bttn_map.get("c"+i+""+j);
+					sample.setEnabled(true);
+				}
+
+
+
 		}
-		
-		for(int i=0;i<8;i++)
-		for(int j=0;j<8;j++)
-		{
-			JButton sample = bttn_map.get("c"+i+""+j);
-			sample.setEnabled(true);
-		}
-		
-		
-		
 	}
-	}
-	
-	
-	//retrive 
-	
+
+
+	//retrive
+
 	public void retrive()
 	{
 		bttn_map.put("c00",c00);
@@ -411,7 +422,7 @@ class obj implements ActionListener{
 		bttn_map.put("c75",c75);
 		bttn_map.put("c76",c76);
 		bttn_map.put("c77",c77);
-		
+
 		pos_map.put("c00","br");
 		pos_map.put("c01","bh");
 		pos_map.put("c02","bn");
@@ -428,7 +439,7 @@ class obj implements ActionListener{
 		pos_map.put("c15","bpt");
 		pos_map.put("c16","bpt");
 		pos_map.put("c17","bpt");
-		
+
 		pos_map.put("c70","wr");
 		pos_map.put("c71","wh");
 		pos_map.put("c72","wn");
@@ -445,264 +456,264 @@ class obj implements ActionListener{
 		pos_map.put("c65","wpt");
 		pos_map.put("c66","wpt");
 		pos_map.put("c67","wpt");
-		
+
 	}
-	
+
 	//retrive_end
-	
+
 	//pawn movement
-	
+
 	public void pawn(int x,int y , String str)
 	{
 		char c = str.charAt(0);
 		count.push("c"+x+""+y);
-		
+
 		char ac;
-	      if(c=='b')
-	      ac='w';
-	      else
-	      ac='b'; 
-		
-	    if(c=='b')
-	    {	
-		if(x+1<8 && arr[x+1][y].charAt(0)!=c && arr[x+1][y].charAt(0)!=ac)
+		if(c=='b')
+			ac='w';
+		else
+			ac='b';
+
+		if(c=='b')
 		{
-			count.push("c"+(x+1)+""+(y));
-			if(str.charAt(2)=='t' && x+2<8 && arr[x+2][y].charAt(0)!=c)
-			count.push("c"+(x+2)+""+(y));
+			if(x+1<8 && arr[x+1][y].charAt(0)!=c && arr[x+1][y].charAt(0)!=ac)
+			{
+				count.push("c"+(x+1)+""+(y));
+				if(str.charAt(2)=='t' && x+2<8 && arr[x+2][y].charAt(0)!=c)
+					count.push("c"+(x+2)+""+(y));
+			}
+
+			if(x+1<8 && y+1<8 && arr[x+1][y+1].charAt(0)==ac)
+				count.push("c"+(x+1)+""+(y+1));
+			if(x+1<8 && y-1>=0 && arr[x+1][y-1].charAt(0)==ac)
+				count.push("c"+(x+1)+""+(y-1));
+
 		}
-		
-		if(x+1<8 && y+1<8 && arr[x+1][y+1].charAt(0)==ac)
-		count.push("c"+(x+1)+""+(y+1));
-		if(x+1<8 && y-1>=0 && arr[x+1][y-1].charAt(0)==ac)
-		count.push("c"+(x+1)+""+(y-1));
-			
-	    }
-	    
-	    else
-	    {	
+
+		else
+		{
 			if(x-1>=0 && arr[x-1][y].charAt(0)!=c && arr[x-1][y].charAt(0)!=ac)
 			{
 				count.push("c"+(x-1)+""+(y));
 				if(str.charAt(2)=='t' && x-2>=0 && arr[x-2][y].charAt(0)!=c)
-				count.push("c"+(x-2)+""+(y));
+					count.push("c"+(x-2)+""+(y));
 			}
-			
+
 			if(x-1>=0 && y-1>=0 && arr[x-1][y-1].charAt(0)==ac)
-			count.push("c"+(x-1)+""+(y-1));	
+				count.push("c"+(x-1)+""+(y-1));
 			if(x-1>=0 && y+1<8 && arr[x-1][y+1].charAt(0)==ac)
-			count.push("c"+(x-1)+""+(y+1));
-			
-			
-		    }	
-		
+				count.push("c"+(x-1)+""+(y+1));
+
+
+		}
+
 	}
 	//pawn movement
-	
+
 	// horse movement
-	
+
 	public void horse(int x,int y,char c)
 	{
-			count.push("c"+x+""+y);
-		
-			if(x-2>=0 && y-1>=0 && arr[x-2][y-1].charAt(0)!=c)
-		    count.push("c"+(x-2)+""+(y-1));
-			if(x-1>=0 &&  y-2>=0 && arr[x-1][y-2].charAt(0)!=c)
+		count.push("c"+x+""+y);
+
+		if(x-2>=0 && y-1>=0 && arr[x-2][y-1].charAt(0)!=c)
+			count.push("c"+(x-2)+""+(y-1));
+		if(x-1>=0 &&  y-2>=0 && arr[x-1][y-2].charAt(0)!=c)
 			count.push("c"+(x-1)+""+(y-2));
-			if(x+2<8  && y-1>=0 && arr[x+2][y-1].charAt(0)!=c)
+		if(x+2<8  && y-1>=0 && arr[x+2][y-1].charAt(0)!=c)
 			count.push("c"+(x+2)+""+(y-1));
-			if(x+1<8  && y-2>=0 && arr[x+1][y-2].charAt(0)!=c)
+		if(x+1<8  && y-2>=0 && arr[x+1][y-2].charAt(0)!=c)
 			count.push("c"+(x+1)+""+(y-2));
-			if(x-2>=0  && y+1<8 && arr[x-2][y+1].charAt(0)!=c)
+		if(x-2>=0  && y+1<8 && arr[x-2][y+1].charAt(0)!=c)
 			count.push("c"+(x-2)+""+(y+1));
-			if(x-1>=0  && y+2<8 && arr[x-1][y+2].charAt(0)!=c)
+		if(x-1>=0  && y+2<8 && arr[x-1][y+2].charAt(0)!=c)
 			count.push("c"+(x-1)+""+(y+2));
-			if(x+1<8  && y+2<8 && arr[x+1][y+2].charAt(0)!=c)
+		if(x+1<8  && y+2<8 && arr[x+1][y+2].charAt(0)!=c)
 			count.push("c"+(x+1)+""+(y+2));
-			if(x+2<8  && y+1<8 && arr[x+2][y+1].charAt(0)!=c)
+		if(x+2<8  && y+1<8 && arr[x+2][y+1].charAt(0)!=c)
 			count.push("c"+(x+2)+""+(y+1));
 	}
-	
+
 	//horse movement
-	
+
 	//bishop movement
-	
+
 	public void bishop(int x,int y,char c)
 	{
-		  int i=x-1;
-	      int j=y-1;
-	      count.push("c"+x+""+y);
-	      
-	      char ac;
-	      if(c=='b')
-	      ac='w';
-	      else
-	      ac='b';  
-	            
-	      while(i>=0 && j>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i--;j--;}
-	      i=x+1;j=y+1;
-	      while(i<8 && j<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i++;j++;}
-	      i=x-1;j=y+1;
-	      while(i>=0 && j<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i--;j++;}
-	      i=x+1;j=y-1;
-	      while(i<8 && j>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i++;j--;}
-		
+		int i=x-1;
+		int j=y-1;
+		count.push("c"+x+""+y);
+
+		char ac;
+		if(c=='b')
+			ac='w';
+		else
+			ac='b';
+
+		while(i>=0 && j>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i--;j--;}
+		i=x+1;j=y+1;
+		while(i<8 && j<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i++;j++;}
+		i=x-1;j=y+1;
+		while(i>=0 && j<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i--;j++;}
+		i=x+1;j=y-1;
+		while(i<8 && j>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i++;j--;}
+
 	}
-	//bishop movement end 
-	
+	//bishop movement end
+
 	//rook movement
-	
+
 	public void rook(int x,int y,char c)
 	{
 		int i=x-1;
-	      int j=y;
-	      count.push("c"+x+""+y);
-	      
-	      char ac;
-	      if(x=='b')
-	      ac='w';
-	      else
-	      ac='b';
-	      
-	      while(i>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i--;}
-	      i=x+1;j=y;
-	      while(i<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i++;}
-	      i=x;j=y+1;
-	      while(j<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      j++;}
-	      i=x;j=y-1;
-	      while(j>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      j--;}
+		int j=y;
+		count.push("c"+x+""+y);
+
+		char ac;
+		if(x=='b')
+			ac='w';
+		else
+			ac='b';
+
+		while(i>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i--;}
+		i=x+1;j=y;
+		while(i<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i++;}
+		i=x;j=y+1;
+		while(j<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			j++;}
+		i=x;j=y-1;
+		while(j>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			j--;}
 	}
-	
+
 	//rook movement end
-	
-	//queen movement 
-	
+
+	//queen movement
+
 	public void queen(int x,int y,char c)
 	{
 		int i=x-1;
-	      int j=y;
-	      count.push("c"+x+""+y);
-	      
-	      char ac;
-	      if(x=='b')
-	      ac='w';
-	      else
-	      ac='b';
-	      
-	      while(i>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i--;}
-	      i=x+1;j=y;
-	      while(i<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i++;}
-	      i=x;j=y+1;
-	      while(j<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      j++;}
-	      i=x;j=y-1;
-	      while(j>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      j--;}
-	      i=x-1;j=y-1;
-	      while(i>=0 && j>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i--;j--;}
-	      i=x+1;j=y+1;
-	      while(i<8 && j<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i++;j++;}
-	      i=x-1;j=y+1;
-	      while(i>=0 && j<8 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i--;j++;}
-	      i=x+1;j=y-1;
-	      while(i<8 && j>=0 && arr[i][j].charAt(0)!=c)
-	      {count.push("c"+i+""+j);
-	      if(arr[i][j].charAt(0)==ac)
-	      break;  
-	      i++;j--;}
-		
+		int j=y;
+		count.push("c"+x+""+y);
+
+		char ac;
+		if(x=='b')
+			ac='w';
+		else
+			ac='b';
+
+		while(i>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i--;}
+		i=x+1;j=y;
+		while(i<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i++;}
+		i=x;j=y+1;
+		while(j<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			j++;}
+		i=x;j=y-1;
+		while(j>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			j--;}
+		i=x-1;j=y-1;
+		while(i>=0 && j>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i--;j--;}
+		i=x+1;j=y+1;
+		while(i<8 && j<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i++;j++;}
+		i=x-1;j=y+1;
+		while(i>=0 && j<8 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i--;j++;}
+		i=x+1;j=y-1;
+		while(i<8 && j>=0 && arr[i][j].charAt(0)!=c)
+		{count.push("c"+i+""+j);
+			if(arr[i][j].charAt(0)==ac)
+				break;
+			i++;j--;}
+
 	}
-	
+
 	//queen movement end
-	
+
 	//king movement
-	
+
 	public void king(int x,int y,char c)
 	{
 		int i=x;
 		int j=y;
-	
+
 		count.push("c"+x+""+y);
 		if(x-1>=0 && arr[x-1][j].charAt(0)!=c)
-		count.push("c"+(x-1)+""+y);	
+			count.push("c"+(x-1)+""+y);
 		if(y-1>=0 && arr[i][j-1].charAt(0)!=c)
-		count.push("c"+(x)+""+(y-1));	
+			count.push("c"+(x)+""+(y-1));
 		if(x+1<8 && arr[i+1][j].charAt(0)!=c)
-		count.push("c"+(x+1)+""+(y));	
+			count.push("c"+(x+1)+""+(y));
 		if(y+1<8 && arr[i][j+1].charAt(0)!=c)
-		count.push("c"+(x)+""+(y+1));	;
+			count.push("c"+(x)+""+(y+1));	;
 		if(x-1>=0 && y-1>=0 && arr[i-1][j-1].charAt(0)!=c)
-		count.push("c"+(x-1)+""+(y-1));	
+			count.push("c"+(x-1)+""+(y-1));
 		if(x+1<8 && y+1<8 && arr[i+1][j+1].charAt(0)!=c)
-		count.push("c"+(x+1)+""+(y+1));	
+			count.push("c"+(x+1)+""+(y+1));
 		if(x-1>=0 && y+1<8 && arr[i-1][j+1].charAt(0)!=c)
-		count.push("c"+(x-1)+""+(y+1));	
+			count.push("c"+(x-1)+""+(y+1));
 		if(x+1<8 && y-1>=0 && arr[i+1][j-1].charAt(0)!=c)
-		count.push("c"+(x+1)+""+(y-1));		
+			count.push("c"+(x+1)+""+(y-1));
 	}
-	
+
 	//king movement end
-		
+
 	//create tile
-	
+
 	public void create_tiles()
 	{
 		c00 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(br, 16))));
@@ -713,7 +724,7 @@ class obj implements ActionListener{
 		c00.addActionListener(this);
 		c00.setBorderPainted(false);
 		c00.setEnabled(true);
-		
+
 		c01 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
 		c01.setBounds(120,40,80,80);
 		c01.setBackground(Color.decode(white));
@@ -722,7 +733,7 @@ class obj implements ActionListener{
 		c01.addActionListener(this);
 		c01.setBorderPainted(false);
 		c01.setEnabled(true);
-		
+
 		c02 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bn, 16))));
 		c02.setBounds(200,40,80,80);
 		c02.setBackground(Color.decode(brown));
@@ -731,7 +742,7 @@ class obj implements ActionListener{
 		c02.addActionListener(this);
 		c02.setBorderPainted(false);
 		c02.setEnabled(true);
-		
+
 		c03 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bq, 16))));
 		c03.setBounds(280,40,80,80);
 		c03.setBackground(Color.decode(white));
@@ -740,7 +751,7 @@ class obj implements ActionListener{
 		c03.addActionListener(this);
 		c03.setBorderPainted(false);
 		c03.setEnabled(true);
-		
+
 		c04 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bk, 16))));
 		c04.setBounds(360,40,80,80);
 		c04.setBackground(Color.decode(brown));
@@ -749,7 +760,7 @@ class obj implements ActionListener{
 		c04.addActionListener(this);
 		c04.setBorderPainted(false);
 		c04.setEnabled(true);
-		
+
 		c05 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bn, 16))));
 		c05.setBounds(440,40,80,80);
 		c05.setBackground(Color.decode(white));
@@ -758,7 +769,7 @@ class obj implements ActionListener{
 		c05.addActionListener(this);
 		c05.setBorderPainted(false);
 		c05.setEnabled(true);
-		
+
 		c06 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
 		c06.setBounds(520,40,80,80);
 		c06.setBackground(Color.decode(brown));
@@ -767,7 +778,7 @@ class obj implements ActionListener{
 		c06.addActionListener(this);
 		c06.setBorderPainted(false);
 		c06.setEnabled(true);
-		
+
 		c07 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(br, 16))));
 		c07.setBounds(600,40,80,80);
 		c07.setBackground(Color.decode(white));
@@ -776,7 +787,7 @@ class obj implements ActionListener{
 		c07.addActionListener(this);
 		c07.setBorderPainted(false);
 		c07.setEnabled(true);
-		
+
 		c10 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c10.setBounds(40,120,80,80);
 		c10.setBackground(Color.decode(white));
@@ -785,7 +796,7 @@ class obj implements ActionListener{
 		c10.addActionListener(this);
 		c10.setBorderPainted(false);
 		c10.setEnabled(true);
-		
+
 		c11 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c11.setBounds(120,120,80,80);
 		c11.setBackground(Color.decode(brown));
@@ -794,7 +805,7 @@ class obj implements ActionListener{
 		c11.addActionListener(this);
 		c11.setBorderPainted(false);
 		c11.setEnabled(true);
-		
+
 		c12 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c12.setBounds(200,120,80,80);
 		c12.setBackground(Color.decode(white));
@@ -803,7 +814,7 @@ class obj implements ActionListener{
 		c12.addActionListener(this);
 		c12.setBorderPainted(false);
 		c12.setEnabled(true);
-		
+
 		c13 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c13.setBounds(280,120,80,80);
 		c13.setBackground(Color.decode(brown));
@@ -812,7 +823,7 @@ class obj implements ActionListener{
 		c13.addActionListener(this);
 		c13.setBorderPainted(false);
 		c13.setEnabled(true);
-		
+
 		c14 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c14.setBounds(360,120,80,80);
 		c14.setBackground(Color.decode(white));
@@ -821,7 +832,7 @@ class obj implements ActionListener{
 		c14.addActionListener(this);
 		c14.setBorderPainted(false);
 		c14.setEnabled(true);
-		
+
 		c15 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c15.setBounds(440,120,80,80);
 		c15.setBackground(Color.decode(brown));
@@ -830,7 +841,7 @@ class obj implements ActionListener{
 		c15.addActionListener(this);
 		c15.setBorderPainted(false);
 		c15.setEnabled(true);
-		
+
 		c16 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c16.setBounds(520,120,80,80);
 		c16.setBackground(Color.decode(white));
@@ -839,7 +850,7 @@ class obj implements ActionListener{
 		c16.addActionListener(this);
 		c16.setBorderPainted(false);
 		c16.setEnabled(true);
-		
+
 		c17 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c17.setBounds(600,120,80,80);
 		c17.setBackground(Color.decode(brown));
@@ -848,7 +859,7 @@ class obj implements ActionListener{
 		c17.addActionListener(this);
 		c17.setBorderPainted(false);
 		c17.setEnabled(true);
-		
+
 		c20 = new JButton();
 		c20.setBounds(40,200,80,80);
 		c20.setBackground(Color.decode(brown));
@@ -857,7 +868,7 @@ class obj implements ActionListener{
 		c20.addActionListener(this);
 		c20.setBorderPainted(false);
 		c20.setEnabled(en);
-		
+
 		c21 = new JButton();
 		c21.setBounds(120,200,80,80);
 		c21.setBackground(Color.decode(white));
@@ -866,7 +877,7 @@ class obj implements ActionListener{
 		c21.addActionListener(this);
 		c21.setBorderPainted(false);
 		c21.setEnabled(en);
-		
+
 		c22 = new JButton();
 		c22.setBounds(200,200,80,80);
 		c22.setBackground(Color.decode(brown));
@@ -875,7 +886,7 @@ class obj implements ActionListener{
 		c22.addActionListener(this);
 		c22.setBorderPainted(false);
 		c22.setEnabled(en);
-		
+
 		c23 = new JButton();
 		c23.setBounds(280,200,80,80);
 		c23.setBackground(Color.decode(white));
@@ -884,7 +895,7 @@ class obj implements ActionListener{
 		c23.addActionListener(this);
 		c23.setBorderPainted(false);
 		c23.setEnabled(en);
-		
+
 		c24 = new JButton();
 		c24.setBounds(360,200,80,80);
 		c24.setBackground(Color.decode(brown));
@@ -893,7 +904,7 @@ class obj implements ActionListener{
 		c24.addActionListener(this);
 		c24.setBorderPainted(false);
 		c24.setEnabled(en);
-		
+
 		c25 = new JButton();
 		c25.setBounds(440,200,80,80);
 		c25.setBackground(Color.decode(white));
@@ -902,7 +913,7 @@ class obj implements ActionListener{
 		c25.addActionListener(this);
 		c25.setBorderPainted(false);
 		c25.setEnabled(en);
-		
+
 		c26 = new JButton();
 		c26.setBounds(520,200,80,80);
 		c26.setBackground(Color.decode(brown));
@@ -911,7 +922,7 @@ class obj implements ActionListener{
 		c26.addActionListener(this);
 		c26.setBorderPainted(false);
 		c26.setEnabled(en);
-		
+
 		c27 = new JButton();
 		c27.setBounds(600,200,80,80);
 		c27.setBackground(Color.decode(white));
@@ -920,7 +931,7 @@ class obj implements ActionListener{
 		c27.addActionListener(this);
 		c27.setBorderPainted(false);
 		c27.setEnabled(en);
-		
+
 		c30 = new JButton();
 		c30.setBounds(40,280,80,80);
 		c30.setBackground(Color.decode(white));
@@ -929,7 +940,7 @@ class obj implements ActionListener{
 		c30.addActionListener(this);
 		c30.setBorderPainted(false);
 		c30.setEnabled(en);
-		
+
 		c31 = new JButton();
 		c31.setBounds(120,280,80,80);
 		c31.setBackground(Color.decode(brown));
@@ -938,7 +949,7 @@ class obj implements ActionListener{
 		c31.addActionListener(this);
 		c31.setBorderPainted(false);
 		c31.setEnabled(en);
-		
+
 		c32 = new JButton();
 		c32.setBounds(200,280,80,80);
 		c32.setBackground(Color.RED);
@@ -948,7 +959,7 @@ class obj implements ActionListener{
 		c32.addActionListener(this);
 		c32.setBorderPainted(false);
 		c32.setEnabled(en);
-		
+
 		c33 = new JButton();
 		c33.setBounds(280,280,80,80);
 		c33.setBackground(Color.decode(brown));
@@ -957,7 +968,7 @@ class obj implements ActionListener{
 		c33.addActionListener(this);
 		c33.setBorderPainted(false);
 		c33.setEnabled(en);
-		
+
 		c34 = new JButton();
 		c34.setBounds(360,280,80,80);
 		c34.setBackground(Color.decode(white));
@@ -966,7 +977,7 @@ class obj implements ActionListener{
 		c34.addActionListener(this);
 		c34.setBorderPainted(false);
 		c34.setEnabled(en);
-		
+
 		c35 = new JButton();
 		c35.setBounds(440,280,80,80);
 		c35.setBackground(Color.decode(brown));
@@ -975,7 +986,7 @@ class obj implements ActionListener{
 		c35.addActionListener(this);
 		c35.setBorderPainted(false);
 		c35.setEnabled(en);
-		
+
 		c36 = new JButton();
 		c36.setBounds(520,280,80,80);
 		c36.setBackground(Color.decode(white));
@@ -984,7 +995,7 @@ class obj implements ActionListener{
 		c36.addActionListener(this);
 		c36.setBorderPainted(false);
 		c36.setEnabled(en);
-		
+
 		c37 = new JButton();
 		c37.setBounds(600,280,80,80);
 		c37.setBackground(Color.decode(brown));
@@ -993,7 +1004,7 @@ class obj implements ActionListener{
 		c37.addActionListener(this);
 		c37.setBorderPainted(false);
 		c37.setEnabled(en);
-		
+
 		c40 = new JButton();
 		c40.setBounds(40,360,80,80);
 		c40.setBackground(Color.decode(brown));
@@ -1003,7 +1014,7 @@ class obj implements ActionListener{
 		c40.addActionListener(this);
 		c40.setBorderPainted(false);
 		c40.setEnabled(en);
-		
+
 		c41 = new JButton();
 		c41.setBounds(120,360,80,80);
 		c41.setBackground(Color.decode(white));
@@ -1012,7 +1023,7 @@ class obj implements ActionListener{
 		c41.addActionListener(this);
 		c41.setBorderPainted(false);
 		c41.setEnabled(en);
-		
+
 		c42 = new JButton();
 		c42.setBounds(200, 360,80,80);
 		c42.setBackground(Color.decode(brown));
@@ -1021,7 +1032,7 @@ class obj implements ActionListener{
 		c42.addActionListener(this);
 		c42.setBorderPainted(false);
 		c42.setEnabled(en);
-		
+
 		c43 = new JButton();
 		c43.setBounds(280, 360,80,80);
 		c43.setBackground(Color.RED);
@@ -1031,7 +1042,7 @@ class obj implements ActionListener{
 		c43.addActionListener(this);
 		c43.setBorderPainted(false);
 		c43.setEnabled(en);
-		
+
 		c44 = new JButton();
 		c44.setBounds(360,360,80,80);
 		c44.setBackground(Color.decode(brown));
@@ -1040,7 +1051,7 @@ class obj implements ActionListener{
 		c44.addActionListener(this);
 		c44.setBorderPainted(false);
 		c44.setEnabled(en);
-		
+
 		c45 = new JButton();
 		c45.setBounds(440,360,80,80);
 		c45.setBackground(Color.decode(white));
@@ -1049,7 +1060,7 @@ class obj implements ActionListener{
 		c45.addActionListener(this);
 		c45.setBorderPainted(false);
 		c45.setEnabled(en);
-		
+
 		c46 = new JButton();
 		c46.setBounds(520,360,80,80);
 		c46.setBackground(Color.decode(brown));
@@ -1058,7 +1069,7 @@ class obj implements ActionListener{
 		c46.addActionListener(this);
 		c46.setBorderPainted(false);
 		c46.setEnabled(en);
-		
+
 		c47 = new JButton();
 		c47.setBounds(600,360,80,80);
 		c47.setBackground(Color.decode(white));
@@ -1067,7 +1078,7 @@ class obj implements ActionListener{
 		c47.addActionListener(this);
 		c47.setBorderPainted(false);
 		c47.setEnabled(en);
-		
+
 		c50 = new JButton();
 		c50.setBounds(40,440,80,80);
 		c50.setBackground(Color.decode(white));
@@ -1077,7 +1088,7 @@ class obj implements ActionListener{
 		c50.addActionListener(this);
 		c50.setBorderPainted(false);
 		c50.setEnabled(en);
-		
+
 		c51 = new JButton();
 		c51.setBounds(120,440,80,80);
 		c51.setBackground(Color.decode(brown));
@@ -1086,7 +1097,7 @@ class obj implements ActionListener{
 		c51.addActionListener(this);
 		c51.setBorderPainted(false);
 		c51.setEnabled(en);
-		
+
 		c52 = new JButton();
 		c52.setBounds(200, 440,80,80);
 		c52.setBackground(Color.RED);
@@ -1096,7 +1107,7 @@ class obj implements ActionListener{
 		c52.addActionListener(this);
 		c52.setBorderPainted(false);
 		c52.setEnabled(en);
-		
+
 		c53 = new JButton();
 		c53.setBounds(280, 440,80,80);
 		c53.setBackground(Color.RED);
@@ -1106,7 +1117,7 @@ class obj implements ActionListener{
 		c53.addActionListener(this);
 		c53.setBorderPainted(false);
 		c53.setEnabled(en);
-		
+
 		c54 = new JButton();
 		c54.setBounds(360,440,80,80);
 		c54.setBackground(Color.decode(white));
@@ -1115,7 +1126,7 @@ class obj implements ActionListener{
 		c54.addActionListener(this);
 		c54.setBorderPainted(false);
 		c54.setEnabled(en);
-		
+
 		c55 = new JButton();
 		c55.setBounds(440,440,80,80);
 		c55.setBackground(Color.decode(brown));
@@ -1124,7 +1135,7 @@ class obj implements ActionListener{
 		c55.addActionListener(this);
 		c55.setBorderPainted(false);
 		c55.setEnabled(en);
-		
+
 		c56 = new JButton();
 		c56.setBounds(520,440,80,80);
 		c56.setBackground(Color.decode(white));
@@ -1133,7 +1144,7 @@ class obj implements ActionListener{
 		c56.addActionListener(this);
 		c56.setBorderPainted(false);
 		c56.setEnabled(en);
-		
+
 		c57 = new JButton();
 		c57.setBounds(600,440,80,80);
 		c57.setBackground(Color.decode(brown));
@@ -1142,7 +1153,7 @@ class obj implements ActionListener{
 		c57.addActionListener(this);
 		c57.setBorderPainted(false);
 		c57.setEnabled(en);
-		
+
 		c60 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c60.setBounds(40,520,80,80);
 		c60.setBackground(Color.decode(brown));
@@ -1151,7 +1162,7 @@ class obj implements ActionListener{
 		c60.addActionListener(this);
 		c60.setBorderPainted(false);
 		c60.setEnabled(true);
-		
+
 		c61 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c61.setBounds(120,520,80,80);
 		c61.setBackground(Color.decode(white));
@@ -1160,7 +1171,7 @@ class obj implements ActionListener{
 		c61.addActionListener(this);
 		c61.setBorderPainted(false);
 		c61.setEnabled(true);
-		
+
 		c62 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c62.setBounds(200, 520,80,80);
 		c62.setBackground(Color.decode(brown));
@@ -1169,7 +1180,7 @@ class obj implements ActionListener{
 		c62.addActionListener(this);
 		c62.setBorderPainted(false);
 		c62.setEnabled(true);
-		
+
 		c63 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c63.setBounds(280, 520,80,80);
 		c63.setBackground(Color.decode(white));
@@ -1178,7 +1189,7 @@ class obj implements ActionListener{
 		c63.addActionListener(this);
 		c63.setBorderPainted(false);
 		c63.setEnabled(true);
-		
+
 		c64 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c64.setBounds(360,520,80,80);
 		c64.setBackground(Color.decode(brown));
@@ -1187,7 +1198,7 @@ class obj implements ActionListener{
 		c64.addActionListener(this);
 		c64.setBorderPainted(false);
 		c64.setEnabled(true);
-		
+
 		c65 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c65.setBounds(440,520,80,80);
 		c65.setBackground(Color.decode(white));
@@ -1196,7 +1207,7 @@ class obj implements ActionListener{
 		c65.addActionListener(this);
 		c65.setBorderPainted(false);
 		c65.setEnabled(true);
-		
+
 		c66 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c66.setBounds(520,520,80,80);
 		c66.setBackground(Color.decode(brown));
@@ -1205,7 +1216,7 @@ class obj implements ActionListener{
 		c66.addActionListener(this);
 		c66.setBorderPainted(false);
 		c66.setEnabled(true);
-		
+
 		c67 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bp, 16))));
 		c67.setBounds(600,520,80,80);
 		c67.setBackground(Color.decode(white));
@@ -1214,7 +1225,7 @@ class obj implements ActionListener{
 		c67.addActionListener(this);
 		c67.setBorderPainted(false);
 		c67.setEnabled(true);
-		
+
 		c70 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(br, 16))));
 		c70.setBounds(40,600,80,80);
 		c70.setBackground(Color.decode(white));
@@ -1223,7 +1234,7 @@ class obj implements ActionListener{
 		c70.addActionListener(this);
 		c70.setBorderPainted(false);
 		c70.setEnabled(true);
-		
+
 		c71 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
 		c71.setBounds(120,600,80,80);
 		c71.setBackground(Color.decode(brown));
@@ -1232,7 +1243,7 @@ class obj implements ActionListener{
 		c71.addActionListener(this);
 		c71.setBorderPainted(false);
 		c71.setEnabled(true);
-		
+
 		c72 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bn, 16))));
 		c72.setBounds(200, 600,80,80);
 		c72.setBackground(Color.RED);
@@ -1242,7 +1253,7 @@ class obj implements ActionListener{
 		c72.addActionListener(this);
 		c72.setBorderPainted(false);
 		c72.setEnabled(true);
-		
+
 		c73 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bq, 16))));
 		c73.setBounds(280, 600,80,80);
 		c73.setBackground(Color.decode(brown));
@@ -1251,7 +1262,7 @@ class obj implements ActionListener{
 		c73.addActionListener(this);
 		c73.setBorderPainted(false);
 		c73.setEnabled(true);
-		
+
 		c74 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bk, 16))));
 		c74.setBounds(360,600,80,80);
 		c74.setBackground(Color.decode(white));
@@ -1260,7 +1271,7 @@ class obj implements ActionListener{
 		c74.addActionListener(this);
 		c74.setBorderPainted(false);
 		c74.setEnabled(true);
-		
+
 		c75 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bn, 16))));
 		c75.setBounds(440,600,80,80);
 		c75.setBackground(Color.decode(brown));
@@ -1269,7 +1280,7 @@ class obj implements ActionListener{
 		c75.addActionListener(this);
 		c75.setBorderPainted(false);
 		c75.setEnabled(true);
-		
+
 		c76 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(bh, 16))));
 		c76.setBounds(520,600,80,80);
 		c76.setBackground(Color.decode(white));
@@ -1278,7 +1289,7 @@ class obj implements ActionListener{
 		c76.addActionListener(this);
 		c76.setBorderPainted(false);
 		c76.setEnabled(true);
-		
+
 		c77 = new JButton(String.valueOf(Character.toChars(Integer.parseInt(br, 16))));
 		c77.setBounds(600,600,80,80);
 		c77.setBackground(Color.decode(brown));
@@ -1287,7 +1298,7 @@ class obj implements ActionListener{
 		c77.addActionListener(this);
 		c77.setBorderPainted(false);
 		c77.setEnabled(true);
-		
+
 		c00.setFont(new Font("Dialog", Font.BOLD, 40));
 		c01.setFont(new Font("Dialog", Font.BOLD, 40));
 		c02.setFont(new Font("Dialog", Font.BOLD, 40));
@@ -1352,113 +1363,177 @@ class obj implements ActionListener{
 		c75.setFont(new Font("Dialog", Font.BOLD, 40));
 		c76.setFont(new Font("Dialog", Font.BOLD, 40));
 		c77.setFont(new Font("Dialog", Font.BOLD, 40));
-		c00.setFocusPainted(false); 
-		c01.setFocusPainted(false); 
-		c02.setFocusPainted(false); 
-		c03.setFocusPainted(false); 
-		c04.setFocusPainted(false); 
-		c05.setFocusPainted(false); 
-		c06.setFocusPainted(false); 
-		c07.setFocusPainted(false); 
-		c10.setFocusPainted(false); 
-		c11.setFocusPainted(false); 
-		c12.setFocusPainted(false); 
-		c13.setFocusPainted(false); 
-		c14.setFocusPainted(false); 
-		c15.setFocusPainted(false); 
-		c16.setFocusPainted(false); 
-		c17.setFocusPainted(false); 
-		c20.setFocusPainted(false); 
-		c21.setFocusPainted(false); 
-		c22.setFocusPainted(false); 
-		c23.setFocusPainted(false); 
-		c24.setFocusPainted(false); 
-		c25.setFocusPainted(false); 
-		c26.setFocusPainted(false); 
-		c27.setFocusPainted(false); 
-		c30.setFocusPainted(false); 
-		c31.setFocusPainted(false); 
-		c32.setFocusPainted(false); 
-		c33.setFocusPainted(false); 
-		c34.setFocusPainted(false); 
-		c35.setFocusPainted(false); 
-		c36.setFocusPainted(false); 
-		c37.setFocusPainted(false); 
-		c40.setFocusPainted(false); 
-		c41.setFocusPainted(false); 
-		c42.setFocusPainted(false); 
-		c43.setFocusPainted(false); 
-		c44.setFocusPainted(false); 
-		c45.setFocusPainted(false); 
-		c46.setFocusPainted(false); 
-		c47.setFocusPainted(false); 
-		c50.setFocusPainted(false); 
-		c51.setFocusPainted(false); 
-		c52.setFocusPainted(false); 
-		c53.setFocusPainted(false); 
-		c54.setFocusPainted(false); 
-		c55.setFocusPainted(false); 
-		c56.setFocusPainted(false); 
-		c57.setFocusPainted(false); 
-		c60.setFocusPainted(false); 
-		c61.setFocusPainted(false); 
-		c62.setFocusPainted(false); 
-		c63.setFocusPainted(false); 
-		c64.setFocusPainted(false); 
-		c65.setFocusPainted(false); 
-		c66.setFocusPainted(false); 
-		c67.setFocusPainted(false); 
-		c70.setFocusPainted(false); 
-		c71.setFocusPainted(false); 
-		c72.setFocusPainted(false); 
-		c73.setFocusPainted(false); 
-		c74.setFocusPainted(false); 
-		c75.setFocusPainted(false); 
-		c76.setFocusPainted(false); 
-		c77.setFocusPainted(false); 
-		c60.setForeground(w); 
-		c61.setForeground(w); 
-		c62.setForeground(w); 
-		c63.setForeground(w); 
-		c64.setForeground(w); 
-		c65.setForeground(w); 
-		c66.setForeground(w); 
-		c67.setForeground(w); 
-		c70.setForeground(w); 
-		c71.setForeground(w); 
-		c72.setForeground(w); 
-		c73.setForeground(w); 
-		c74.setForeground(w); 
-		c75.setForeground(w); 
-		c76.setForeground(w); 
-		c77.setForeground(w); 
+		c00.setFocusPainted(false);
+		c01.setFocusPainted(false);
+		c02.setFocusPainted(false);
+		c03.setFocusPainted(false);
+		c04.setFocusPainted(false);
+		c05.setFocusPainted(false);
+		c06.setFocusPainted(false);
+		c07.setFocusPainted(false);
+		c10.setFocusPainted(false);
+		c11.setFocusPainted(false);
+		c12.setFocusPainted(false);
+		c13.setFocusPainted(false);
+		c14.setFocusPainted(false);
+		c15.setFocusPainted(false);
+		c16.setFocusPainted(false);
+		c17.setFocusPainted(false);
+		c20.setFocusPainted(false);
+		c21.setFocusPainted(false);
+		c22.setFocusPainted(false);
+		c23.setFocusPainted(false);
+		c24.setFocusPainted(false);
+		c25.setFocusPainted(false);
+		c26.setFocusPainted(false);
+		c27.setFocusPainted(false);
+		c30.setFocusPainted(false);
+		c31.setFocusPainted(false);
+		c32.setFocusPainted(false);
+		c33.setFocusPainted(false);
+		c34.setFocusPainted(false);
+		c35.setFocusPainted(false);
+		c36.setFocusPainted(false);
+		c37.setFocusPainted(false);
+		c40.setFocusPainted(false);
+		c41.setFocusPainted(false);
+		c42.setFocusPainted(false);
+		c43.setFocusPainted(false);
+		c44.setFocusPainted(false);
+		c45.setFocusPainted(false);
+		c46.setFocusPainted(false);
+		c47.setFocusPainted(false);
+		c50.setFocusPainted(false);
+		c51.setFocusPainted(false);
+		c52.setFocusPainted(false);
+		c53.setFocusPainted(false);
+		c54.setFocusPainted(false);
+		c55.setFocusPainted(false);
+		c56.setFocusPainted(false);
+		c57.setFocusPainted(false);
+		c60.setFocusPainted(false);
+		c61.setFocusPainted(false);
+		c62.setFocusPainted(false);
+		c63.setFocusPainted(false);
+		c64.setFocusPainted(false);
+		c65.setFocusPainted(false);
+		c66.setFocusPainted(false);
+		c67.setFocusPainted(false);
+		c70.setFocusPainted(false);
+		c71.setFocusPainted(false);
+		c72.setFocusPainted(false);
+		c73.setFocusPainted(false);
+		c74.setFocusPainted(false);
+		c75.setFocusPainted(false);
+		c76.setFocusPainted(false);
+		c77.setFocusPainted(false);
+		c60.setForeground(w);
+		c61.setForeground(w);
+		c62.setForeground(w);
+		c63.setForeground(w);
+		c64.setForeground(w);
+		c65.setForeground(w);
+		c66.setForeground(w);
+		c67.setForeground(w);
+		c70.setForeground(w);
+		c71.setForeground(w);
+		c72.setForeground(w);
+		c73.setForeground(w);
+		c74.setForeground(w);
+		c75.setForeground(w);
+		c76.setForeground(w);
+		c77.setForeground(w);
 
 
-		
+
 	}
-	
-	
 }
 
 
 public class chess {
-	
+	private static JTextField chatField;
+	static String [] chat = new String [1000];
+
+	static int count = 0;
+	static String sendUser = "Long: ";
 	public static void frame()
 	{
+
 		JFrame game_frame =new JFrame("Chess");
-		
+
 		new obj(game_frame);
-		
+
 		game_frame.setSize(1200,750);
-		game_frame.setLayout(null);
+		game_frame.getContentPane().setLayout(null);
 		game_frame.setVisible(true);
 		game_frame.getContentPane().setBackground(Color.decode("#2B3C53"));
-		game_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		game_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(731, 205, 426, 386);
+		game_frame.getContentPane().add(scrollPane);
+
+
+
+		JTextArea textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+		textArea.setFont(new Font("Segoe UI Variable", Font.BOLD, 17));
+		textArea.setBackground(Color.PINK);
+		textArea.setBorder(new MatteBorder(5, 5, 5, 5, (Color) Color.ORANGE));
+		textArea.setEditable(false);
+		chatField = new JTextField();
+		chatField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					if(count <= 999) {
+						chat[count] = chatField.getText();
+						chatField.setText("");
+						count++;
+						textArea.append(sendUser + chat[count-1] + "\n");
+					}
+				}
+			}
+		});
+		chatField.setBounds(731, 601, 355, 35);
+		game_frame.getContentPane().add(chatField);
+		chatField.setColumns(10);
+
+
+
+		JButton btnNewButton = new JButton("Gửi");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				if(count <= 999) {
+					chat[count] = chatField.getText();
+					chatField.setText("");
+					count++;
+					textArea.append(sendUser + chat[count-1] + "\n");
+				}
+
+
+			}
+		});
+		btnNewButton.setBounds(1096, 601, 61, 35);
+		game_frame.getContentPane().add(btnNewButton);
+
+
+
+
+
+
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		frame();
+		SwingUtilities.invokeLater(new Runnable (){
+			public void run() {
+				frame();
+			}
+
+		});
+
 	}
 
 }
