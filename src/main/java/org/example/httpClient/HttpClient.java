@@ -2,16 +2,26 @@ package org.example.httpClient;
 
 import netscape.javascript.JSObject;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.example.entity.TableState;
 import org.example.entity.User;
 import org.example.payload.ForgetPasswordRequest;
 import org.example.payload.LoginRequest;
+import org.example.payload.TableStates;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class HttpClient {
@@ -189,6 +199,39 @@ public class HttpClient {
             httpClient.execute(httpDelete, handler);
         } catch (Exception ex) {
             System.err.println("Exception " + ex);
+        }
+    }
+
+    public List<TableState> getTableStates(Integer type, String token){
+        try{
+            RestTemplate restTemplate = new RestTemplate();
+            List<TableState> tableStates = new ArrayList<>();
+            tableStates = restTemplate.getForObject("http://localhost:8080/api/v1/tableState/type/{type}", TableStates.class, type).getTableStates();
+            return tableStates;
+        }catch(Exception e){
+            return null;
+        }
+    }
+
+    public TableState getTableState(Integer id, String token){
+        try{
+            RestTemplate restTemplate = new RestTemplate();
+            TableState tableState = new TableState();
+            tableState = restTemplate.getForObject("http://localhost:8080/api/v1/tableState/{id}", TableState.class, id);
+            return tableState;
+        }catch(Exception e){
+            return null;
+        }
+    }
+
+    public TableState putTableState(TableState tableState, String token){
+        try{
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.put("http://localhost:8080/api/v1/tableState", tableState);
+            tableState = restTemplate.getForObject("http://localhost:8080/api/v1/tableState/{id}", TableState.class, tableState.getId());
+            return tableState;
+        }catch(Exception e){
+            return null;
         }
     }
 }
