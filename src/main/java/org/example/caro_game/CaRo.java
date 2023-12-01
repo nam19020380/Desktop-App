@@ -4,11 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CaRo extends JFrame implements ActionListener {
+
+
+
+public class CaRo  extends JFrame implements ActionListener  {
+    String userName = "Long";
+    int chatCount = 0;
+    static String [] chat = new String [1000];
     Color background_cl = Color.white;
     Color x_cl = Color.red;
     Color y_cl = Color.blue;
-    int column = 10, row = 10, count = 0;
+    int column = 15, row = 20, count = 0;
     int xUndo[] = new int[column * row];
     int yUndo[] = new int[column * row];
     boolean tick[][] = new boolean[column + 2][row + 2];
@@ -18,10 +24,13 @@ public class CaRo extends JFrame implements ActionListener {
     JLabel lb;
     JButton newGame_bt, undo_bt, exit_bt;
     private JButton b[][] = new JButton[column + 2][row + 2];
+    private JTextField chatField;
+    private JScrollPane scrollPane;
     public CaRo(String s) {
         super(s);
         cn =this.getContentPane();
         pn = new JPanel();
+        pn.setBounds(0, 31, 1245, 679);
         pn.setLayout(new GridLayout(column,row));
         for (int i = 0; i <= column + 1; i++)
             for (int j = 0; j <= row + 1; j++) {
@@ -29,6 +38,7 @@ public class CaRo extends JFrame implements ActionListener {
                 b[i][j].setActionCommand(i + " " + j);
                 b[i][j].setBackground(background_cl);
                 b[i][j].addActionListener(this);
+                b[i][j].setFont(new Font("Segoe UI Variable", Font.BOLD, 14) );
                 tick[i][j] = true;
             }
         for (int i = 1; i <= column; i++)
@@ -42,19 +52,71 @@ public class CaRo extends JFrame implements ActionListener {
         undo_bt.addActionListener(this);
         exit_bt.addActionListener(this);
         exit_bt.setForeground(x_cl);
+        getContentPane().setLayout(null);
         cn.add(pn);
         pn2 = new JPanel();
+        pn2.setBounds(0, 0, 1486, 31);
         pn2.setLayout(new FlowLayout());
         pn2.add(lb);
         pn2.add(newGame_bt);
         pn2.add(undo_bt);
         pn2.add(exit_bt);
-        cn.add(pn2,"North");
+        cn.add(pn2);
         this.setVisible(true);
-        this.setSize(760, 760);
+        this.setSize(1500,750);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         undo_bt.setEnabled(false);
+
+        JPanel panel = new JPanel();
+        panel.setBounds(1243, 249, 243, 461);
+        getContentPane().add(panel);
+        panel.setLayout(null);
+
+        chatField = new JTextField();
+        chatField.setBounds(0, 417, 180, 44);
+        panel.add(chatField);
+        chatField.setColumns(10);
+
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(0, 0, 243, 417);
+        panel.add(scrollPane);
+
+        JTextArea textArea = new JTextArea();
+        scrollPane.setViewportView(textArea);
+        textArea.setBackground(SystemColor.info);
+        textArea.setOpaque(true);
+        textArea.setEditable(false);
+
+        JButton btnNewButton = new JButton("Gửi");
+        btnNewButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(chatCount  <= 999) {
+                    chat[chatCount] = chatField.getText();
+                    chatField.setText("");
+                    chatCount++;
+                    textArea.append(userName +": "+ chat[chatCount-1] + "\n");
+                }
+            }
+        });
+        btnNewButton.setBounds(178, 417, 65, 44);
+        panel.add(btnNewButton);
+
+        chatField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+                    if(chatCount  <= 999) {
+                        chat[chatCount] = chatField.getText();
+                        chatField.setText("");
+                        chatCount++;
+                        textArea.append(userName +": "+ chat[chatCount-1] + "\n");
+                    }
+                }
+            }
+        });
+
     }
     public boolean checkWin(int i, int j) {
         int d = 0, k = i, h;
@@ -134,13 +196,13 @@ public class CaRo extends JFrame implements ActionListener {
         Size++;
         if (count % 2 == 0) {
             b[i][j].setText("X");
-            b[i][j].setFont(new Font ("Segoe UI Variable", Font.BOLD, 25));
+
             b[i][j].setForeground(x_cl);
             lb.setText("Lượt Của O");
         }
         else {
+
             b[i][j].setText("O");
-            b[i][j].setFont(new Font ("Segoe UI Variable", Font.BOLD, 25));
             b[i][j].setForeground(y_cl);
             lb.setText("Lượt Của X");
         }
@@ -182,6 +244,12 @@ public class CaRo extends JFrame implements ActionListener {
         }
     }
     public static void main(String[] args) {
-        new CaRo("GAME CARO");
+        SwingUtilities.invokeLater(new Runnable (){
+            public void run() {
+                new CaRo("GAME CARO");
+            }
+
+        });
+
     }
 }
