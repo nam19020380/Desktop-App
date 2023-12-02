@@ -37,7 +37,7 @@ public class HPage extends JFrame   {
     private JTextField player_name_1_table_6;
     private JTextField player_name_2_table_6;
 
-    public HPage(){
+    public HPage(String name){
         setTitle("HomePage");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(850,600);
@@ -70,7 +70,7 @@ public class HPage extends JFrame   {
         logOutButton.setBounds(10, 502, 144, 35);
         userIn4Panel.add(logOutButton);
 
-        JLabel userName = new JLabel("Tân Long");
+        JLabel userName = new JLabel(name);
         userName.setFont(new Font("Segoe UI Emoji", Font.BOLD, 16));
         userName.setHorizontalAlignment(SwingConstants.CENTER);
         userName.setBounds(10, 157, 144, 41);
@@ -461,7 +461,7 @@ public class HPage extends JFrame   {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable(){
             public void run() {
-                new HPage();
+                new HPage(" ");
             }
         });
 

@@ -465,6 +465,7 @@ class obj implements ActionListener{
 
 	public void pawn(int x,int y , String str)
 	{
+		System.out.println("Movement pawn");
 		char c = str.charAt(0);
 		count.push("c"+x+""+y);
 
@@ -481,6 +482,8 @@ class obj implements ActionListener{
 				count.push("c"+(x+1)+""+(y));
 				if(str.charAt(2)=='t' && x+2<8 && arr[x+2][y].charAt(0)!=c)
 					count.push("c"+(x+2)+""+(y));
+
+
 			}
 
 			if(x+1<8 && y+1<8 && arr[x+1][y+1].charAt(0)==ac)

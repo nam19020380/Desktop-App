@@ -1,5 +1,6 @@
 package org.example.panel;
 
+import org.example.HomePage.HPage;
 import org.example.httpClient.HttpClient;
 import org.example.payload.ForgetPasswordRequest;
 import org.example.payload.LoginRequest;
@@ -43,6 +44,7 @@ public class Login extends JFrame{
                     JOptionPane.showMessageDialog(null,"Sai tên đăng nhập hoặc mật khẩu");
                 } else{
                     System.out.println("Dang nhap thanh cong");
+                    new HPage(textField1.getText());
                 }
 
             }
