@@ -1,12 +1,12 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
+
 public class TableState {
     private Integer id;
 
@@ -21,6 +21,19 @@ public class TableState {
     private String player2IdMove;
 
     private List<String> chatLog;
+
+    public TableState() {
+    }
+
+    public TableState(Integer id, String type, Integer player1Id, Integer player2Id, String player1IdMove, String player2IdMove, List<String> chatLog) {
+        this.id = id;
+        this.type = type;
+        this.player1Id = player1Id;
+        this.player2Id = player2Id;
+        this.player1IdMove = player1IdMove;
+        this.player2IdMove = player2IdMove;
+        this.chatLog = chatLog;
+    }
 
     public Integer getId() {
         return id;

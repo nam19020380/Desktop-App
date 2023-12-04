@@ -7,6 +7,13 @@ import java.util.List;
 public class TableStates {
     private List<TableState> tableStates;
 
+    public TableStates() {
+    }
+
+    public TableStates(List<TableState> tableStates) {
+        this.tableStates = tableStates;
+    }
+
     public List<TableState> getTableStates() {
         return tableStates;
     }

@@ -1,5 +1,6 @@
 package org.example.httpClient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import netscape.javascript.JSObject;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -14,17 +15,21 @@ import org.example.entity.User;
 import org.example.payload.ForgetPasswordRequest;
 import org.example.payload.LoginRequest;
 import org.example.payload.TableStates;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class HttpClient {
+    @Autowired
+    ObjectMapper mapper;
     public HttpClient() {
     }
     public void httpGet(String uri){
@@ -204,9 +209,13 @@ public class HttpClient {
 
     public List<TableState> getTableStates(Integer type, String token){
         try{
+            TableStates tableState1 = new TableStates();
+            org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+            headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+            org.springframework.http.HttpEntity<TableStates> entity = new org.springframework.http.HttpEntity<TableStates>(tableState1, headers);
             RestTemplate restTemplate = new RestTemplate();
             List<TableState> tableStates = new ArrayList<>();
-            tableStates = restTemplate.getForObject("http://localhost:8080/api/v1/tableState/type/{type}", TableStates.class, type).getTableStates();
+            tableStates = restTemplate.exchange("http://localhost:8080/api/v1/tableState/type/" + type, HttpMethod.GET, entity, TableStates.class).getBody().getTableStates();
             return tableStates;
         }catch(Exception e){
             return null;
@@ -215,11 +224,15 @@ public class HttpClient {
 
     public TableState getTableState(Integer id, String token){
         try{
+            TableState tableState1 = new TableState();
+            org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+            headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+            org.springframework.http.HttpEntity<TableState> entity = new org.springframework.http.HttpEntity<TableState>(tableState1, headers);
             RestTemplate restTemplate = new RestTemplate();
-            TableState tableState = new TableState();
-            tableState = restTemplate.getForObject("http://localhost:8080/api/v1/tableState/{id}", TableState.class, id);
-            return tableState;
+            ResponseEntity<TableState> tableState = restTemplate.exchange("http://localhost:8080/api/v1/tableState/" + id, HttpMethod.GET,entity, TableState.class);
+            return tableState.getBody();
         }catch(Exception e){
+            System.out.println(e.toString());
             return null;
         }
     }
